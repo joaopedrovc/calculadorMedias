@@ -26,7 +26,12 @@ class HomeController extends Controller
     }
 
     public function getUCs($id) {
-        $ucs = Curso::find($id)->ucs;
+        $cursoPedido = Curso::find($id);
+        if($cursoPedido == null) {
+            return redirect()->route('home');
+        }
+        $ucs = $cursoPedido->ucs;
+        
         $escolas = Escola::pluck('nome', 'id');
         $escolaId = Curso::find($id)->escola->id;
         $curso = Curso::find($id);
@@ -45,6 +50,9 @@ class HomeController extends Controller
     public function getUCsPorRamo($id) {
 
         $ramo = Ramo::find($id);
+        if($ramo == null) {
+            return redirect()->route('home');
+        }
         $curso = $ramo->curso;
         //$ramos = $curso->ramos->where('nome', 'Tronco Comum')->orWhere('id', $id);
         $ramoComum = $curso->ramos->where('nome', 'Tronco Comum');
