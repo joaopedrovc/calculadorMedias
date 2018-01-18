@@ -25,3 +25,4 @@ Route::get('api/dropdown', function(){
 
 Route::get('escolas/getCursos/{id}', 'HomeController@getCursos');
 Route::get('cursos/getUCs/{id}', 'HomeController@getUCs');
+Route::get('cursos/getUCsPorRamo/{id}', 'HomeController@getUCsPorRamo');

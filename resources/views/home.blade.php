@@ -42,6 +42,22 @@
             @endif
             }
         </select>
+        
+        @if(isset($ramos) && $ramos != null)
+        <select name="ramo" class="form-control">
+            <option value="">--Ramo--</option>
+                @foreach ($ramos as $ramo => $value)
+                    @if($value != "Tronco Comum")
+                    @if(isset($ramoId) && $ramoId != null && $ramoId == $ramo)
+                        <option value="{{ $ramo }}" selected> {{ $value }}</option>
+                    @else
+                    <option value="{{ $ramo }}"> {{ $value }}</option>
+                    @endif
+                    @endif
+                @endforeach
+            }
+        </select>
+        @endif
 
         <div class="col-md-2"><span id="loader"><i class="fa fa-spinner fa-3x fa-spin"></i></span></div>
 
@@ -84,7 +100,7 @@
                     @foreach($ucs as $uc)
                         <tr id="row{{$uc->id}}">
                             <td>{{ $uc->id}}</td>
-                            <td>{{ $uc->ano}}º Ano / {{ $uc->semestre }}º Semestre</td>
+                            <td>{{ $uc->ano}}º Ano / {{ $uc->semestre }}º Semestre   -   Ramo: {{$uc->ramo->nome}}</td>
                             <td>{{ $uc->nome}}</td>
                             <td>{{ $uc->ects}} ECTS</td>
                             <td><input class="nota" type="number" name="{{$uc->id}}" min="0" max="20"></td>

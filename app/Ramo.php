@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Curso extends Model
+class Ramo extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'cursos';
+    protected $table = 'ramos';
 
     /**
      * Indicates if the model should be timestamped.
@@ -26,21 +26,16 @@ class Curso extends Model
      * @var array
      */
     protected $fillable = [
-        'nome', 'totalUCTS'
+        'nome'
     ];
+
+    public function curso()
+    {
+        return $this->belongsTo('App\Curso');
+    }
 
     public function ucs()
     {
-    	return $this->hasMany('App\UC');
-    }
-
-    public function ramos()
-    {
-    	return $this->hasMany('App\Ramo');
-    }
-
-    public function escola()
-    {
-        return $this->belongsTo('App\Escola');
+        return $this->hasMany('App\UC');
     }
 }

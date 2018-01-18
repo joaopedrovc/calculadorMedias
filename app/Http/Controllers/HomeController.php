@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Escola;
 use App\Curso;
 use App\UC;
+use App\Ramo;
 class HomeController extends Controller
 {
     public function index()
@@ -28,11 +29,41 @@ class HomeController extends Controller
         $ucs = Curso::find($id)->ucs;
         $escolas = Escola::pluck('nome', 'id');
         $escolaId = Curso::find($id)->escola->id;
+        $curso = Curso::find($id);
+        $ramos = null;
+        if(count($curso->ramos)) {
+            $ramos = $curso->ramos->pluck('nome', 'id');
+            //dd(UC::find(1)->ramo);
+        }
         $cursos = Escola::find($escolaId)->cursos->pluck('nome', 'id');
         $cursoId = $id;
         $totalUCs = count($ucs);
-        return view('home', compact('escolas', 'ucs', 'escolaId', 'cursoId', 'cursos', 'totalUCs'));
+        return view('home', compact('escolas', 'ucs', 'escolaId', 'cursoId', 'cursos', 'totalUCs', 'ramos'));
         //return $ucs;
+    }
+
+    public function getUCsPorRamo($id) {
+
+        $ramo = Ramo::find($id);
+        $curso = $ramo->curso;
+        //$ramos = $curso->ramos->where('nome', 'Tronco Comum')->orWhere('id', $id);
+        $ramoComum = $curso->ramos->where('nome', 'Tronco Comum');
+        $idRamoComum = $ramoComum[0]->id;
+        //dd($idRamoComum);
+        $ramosIds = [$idRamoComum, $id];
+
+        $ucs = $curso->ucs->whereIn('ramo_id', $ramosIds);
+        //dd($ucs);
+        $escolas = Escola::pluck('nome', 'id');
+        //$ucs = $curso->ucs;
+        $escolaId = $curso->escola->id;
+        $cursoId = $curso->id;
+        $cursos = Escola::find($escolaId)->cursos->pluck('nome', 'id');
+        $totalUCs = count($ucs);
+        $ramos = $curso->ramos->pluck('nome', 'id');
+        $ramoId = $id;
+        return view('home', compact('escolas', 'ucs', 'escolaId', 'cursoId', 'cursos', 'totalUCs', 'ramos', 'ramoId'));
+        
     }
 
     public function calcularMedia(Request $request) {

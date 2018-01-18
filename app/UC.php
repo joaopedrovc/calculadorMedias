@@ -26,12 +26,18 @@ class UC extends Model
      * @var array
      */
     protected $fillable = [
-        'nome', 'ects', 'ano', 'semestre',
+        'nome', 'ects', 'ano', 'semestre'
     ];
 
     public function curso()
     {
         return $this->belongsTo('App\Curso');
     }
+
+    public function ramo()
+    {
+    	return $this->belongsTo('App\Ramo');
+    }
+
 
 }

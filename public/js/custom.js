@@ -27,6 +27,8 @@ $(document).ready(function() {
         } else {
             $('select[name="curso"]').empty();
             $('select[name="curso"]').append('<option value=""> --Curso-- </option>');
+            $('select[name="ramo"]').empty();
+            $('select[name="ramo"]').append('<option value=""> --Ramo-- </option>');
             $('#tabela').css("visibility", "hidden");
         }
 
@@ -39,7 +41,23 @@ $(document).ready(function() {
             document.location.href = '/cursos/getUCs/'+cursoId;
            
         } else {
+            $('select[name="ramo"]').empty();
+            $('select[name="ramo"]').append('<option value=""> --Ramo-- </option>');
+            $('#tabela').css("visibility", "hidden");
+        }
+
+    });
+
+    $('select[name="ramo"]').on('change', function(){
+        var ramoId = $(this).val();
+        if(ramoId) {
+            //var escolaId = $('select[name="escola"]').val();
+            document.location.href = '/cursos/getUCsPorRamo/'+ramoId;
+           
+        } else {
            $('#tabela').css("visibility", "hidden");
+           var cursoId = $('select[name="curso"]').val();
+           document.location.href = '/cursos/getUCs/'+cursoId;
         }
 
     });
